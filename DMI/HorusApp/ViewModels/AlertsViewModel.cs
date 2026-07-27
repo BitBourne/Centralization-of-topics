@@ -11,15 +11,17 @@ public partial class AlertsViewModel : ObservableObject
 {
 	private readonly AlertService _alertService;
 
-
-
 	[ObservableProperty]
 	private bool _isLoading;
+
+	// Controla la visibilidad del overlay cuando el usuario presiona una alerta
+	[ObservableProperty]
+	private bool _isNavigating;
 
 	[ObservableProperty]
 	[NotifyPropertyChangedFor(nameof(HasErrorMessage))]
 	private string _errorMessage = string.Empty;
-	// Esta propiedad devolverá true solo cuando ErrorMessage tenga texto
+
 	public bool HasErrorMessage => !string.IsNullOrWhiteSpace(ErrorMessage);
 
 	[ObservableProperty]
@@ -42,7 +44,6 @@ public partial class AlertsViewModel : ObservableObject
 
 			var items = await _alertService.GetAlertsAsync();
 
-			// Actualización de la UI
 			MainThread.BeginInvokeOnMainThread(() =>
 			{
 				Alerts.Clear();
@@ -61,7 +62,6 @@ public partial class AlertsViewModel : ObservableObject
 		}
 		finally
 		{
-			// Esto le indica al RefreshView que el proceso terminó y debe ocultar el spinner
 			IsLoading = false;
 		}
 	}
@@ -69,16 +69,28 @@ public partial class AlertsViewModel : ObservableObject
 	[RelayCommand]
 	private async Task SelectAlertAsync(MobileAlertDto alert)
 	{
-		if (alert == null) return;
+		// Previene múltiples toques mientras se procesa la navegación
+		if (alert == null || IsNavigating) return;
 
-		// Pasamos el ID de la alerta como parámetro en la ruta de Shell
-		var navigationParameters = new Dictionary<string, object>
+		try
 		{
-			{ "AlertId", alert.Id } 
-		};
+			IsNavigating = true;
 
-		await Shell.Current.GoToAsync(nameof(AlertDetailPage), navigationParameters);
+			var navigationParameters = new Dictionary<string, object>
+			{
+				{ "AlertId", alert.Id }
+			};
 
-		SelectedAlert = null;
+			await Shell.Current.GoToAsync(nameof(AlertDetailPage), navigationParameters);
+		}
+		catch (Exception ex)
+		{
+			ErrorMessage = $"Error al abrir detalle: {ex.Message}";
+		}
+		finally
+		{
+			IsNavigating = false;
+			SelectedAlert = null; // Resetea el elemento seleccionado en la CollectionView
+		}
 	}
 }

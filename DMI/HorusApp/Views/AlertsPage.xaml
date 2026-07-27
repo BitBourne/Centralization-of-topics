@@ -4,43 +4,43 @@
              xmlns:models="clr-namespace:HorusApp.Models"
              x:Class="HorusApp.Views.AlertsPage"
              Title="Alertas de Seguridad"
-             BackgroundColor="#050505"
+             BackgroundColor="#05050A"
              Shell.NavBarIsVisible="False">
 
 	<Grid RowDefinitions="Auto, *">
 
-		<!-- Banner de Error Superior (Estilo Dashboard) -->
+		<!-- Banner de Error Superior -->
 		<Border Grid.Row="0"
-        BackgroundColor="#1A090B"
-        Stroke="#5C1418"
-        StrokeThickness="1"
-        Margin="16,12,16,4"
-        Padding="12,10"
-        StrokeShape="RoundRectangle 8"
-        IsVisible="{Binding HasErrorMessage}">
+                BackgroundColor="#2D1214"
+                Stroke="#5A1E20"
+                StrokeThickness="1"
+                Margin="16,12,16,4"
+                Padding="12,10"
+                StrokeShape="RoundRectangle 8"
+                IsVisible="{Binding HasErrorMessage}">
 
 			<HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
 				<Label Text="⚠️" FontSize="14" VerticalOptions="Center" />
 				<Label Text="{Binding ErrorMessage}"
-               TextColor="#FF4D4D"
-               FontSize="13"
-               FontAttributes="Bold"
-               VerticalOptions="Center"/>
+                       TextColor="#FF4D4D"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center"/>
 			</HorizontalStackLayout>
 		</Border>
 
 		<!-- Lista de Alertas -->
 		<RefreshView Grid.Row="1"
-             IsRefreshing="{Binding IsLoading, Mode=TwoWay}"
-             Command="{Binding LoadAlertsCommand}"
-             RefreshColor="#007ACC">
+                     IsRefreshing="{Binding IsLoading, Mode=TwoWay}"
+                     Command="{Binding LoadAlertsCommand}"
+                     RefreshColor="#00F2FE">
 
 			<CollectionView ItemsSource="{Binding Alerts}"
-                SelectionMode="Single"
-                SelectionChangedCommand="{Binding SelectAlertCommand}"
-                SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
-                SelectedItem="{Binding SelectedAlert, Mode=TwoWay}"
-                ItemSizingStrategy="MeasureFirstItem">
+                            SelectionMode="Single"
+                            SelectionChangedCommand="{Binding SelectAlertCommand}"
+                            SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
+                            SelectedItem="{Binding SelectedAlert, Mode=TwoWay}"
+                            ItemSizingStrategy="MeasureFirstItem">
 
 				<!-- Estado Vacío -->
 				<CollectionView.EmptyView>
@@ -65,15 +65,13 @@
 				<CollectionView.ItemTemplate>
 					<DataTemplate x:DataType="models:MobileAlertDto">
 
-						<!-- Tarjeta Clickeable con Border (Moderno) -->
 						<Border Margin="16,6"
                                 Padding="16"
-                                BackgroundColor="#12131A"
-                                Stroke="#20222E"
+                                BackgroundColor="#0A0B10"
+                                Stroke="#1A1C24"
                                 StrokeThickness="1"
                                 StrokeShape="RoundRectangle 12">
 
-							<!-- Evento de Tap / Clic en la Card -->
 							<Border.GestureRecognizers>
 								<TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SelectAlertCommand}"
                                                       CommandParameter="{Binding .}" />
@@ -116,10 +114,10 @@
                                        MaxLines="2"
                                        LineBreakMode="TailTruncation" />
 
-								<!-- Fila 2: Separador Sutil -->
+								<!-- Fila 2: Separador -->
 								<BoxView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                                          HeightRequest="1"
-                                         Color="#1C1D26"
+                                         Color="#153A61"
                                          Margin="0,2"
                                          HorizontalOptions="Fill" />
 
@@ -128,7 +126,7 @@
                                                        Spacing="12"
                                                        VerticalOptions="Center">
 
-									<Border BackgroundColor="#1A2433"
+									<Border BackgroundColor="#0C1829"
                                             Padding="6,2"
                                             StrokeShape="RoundRectangle 4"
                                             StrokeThickness="0"
@@ -136,7 +134,7 @@
 										<Label Text="{Binding SrcIp, StringFormat='IP: {0}'}"
                                                FontSize="11"
                                                FontAttributes="Bold"
-                                               TextColor="#3399FF"/>
+                                               TextColor="#00F2FE"/>
 									</Border>
 
 									<Label Text="{Binding DstUser, StringFormat='User: {0}'}"
@@ -161,5 +159,35 @@
 				</CollectionView.ItemTemplate>
 			</CollectionView>
 		</RefreshView>
+
+		<!-- OVERLAY DE NAVEGACIÓN Y CARGA -->
+		<Grid Grid.Row="0" Grid.RowSpan="2"
+              BackgroundColor="#CC05050A"
+              IsVisible="{Binding IsNavigating}"
+              InputTransparent="False">
+
+			<Border BackgroundColor="#0A0B10"
+                    Stroke="#153A61"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="24"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+
+				<VerticalStackLayout Spacing="14" HorizontalOptions="Center">
+					<ActivityIndicator IsRunning="{Binding IsNavigating}"
+                                       Color="#00F2FE"
+                                       HeightRequest="36"
+                                       WidthRequest="36" />
+
+					<Label Text="Cargando detalles..."
+                           TextColor="#00F2FE"
+                           FontSize="13"
+                           FontAttributes="Bold"
+                           HorizontalTextAlignment="Center" />
+				</VerticalStackLayout>
+			</Border>
+		</Grid>
+
 	</Grid>
 </ContentPage>
