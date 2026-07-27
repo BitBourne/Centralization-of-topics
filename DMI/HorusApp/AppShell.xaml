@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="HorusApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:HorusApp.Views"
+    Title="HorusApp"
+    FlyoutBehavior="Disabled">
+
+	<ShellContent
+        Title="Login"
+        Route="LoginPage"
+        ContentTemplate="{DataTemplate views:LoginPage}" />
+
+	<TabBar Shell.TabBarBackgroundColor="#050506"
+            Shell.TabBarForegroundColor="#00F3FF"
+            Shell.TabBarUnselectedColor="#4A4D53">
+
+		<Tab Title="Notificaciones" Icon="notification_icon.png">
+			<ShellContent Route="AlertsPage" ContentTemplate="{DataTemplate views:AlertsPage}" />
+		</Tab>
+		<Tab Title="Ajustes" Icon="settings_icon.png">
+			<ShellContent Route="SettingsPage" ContentTemplate="{DataTemplate views:SettingsPage}" />
+		</Tab>
+	</TabBar>
+
+</Shell>

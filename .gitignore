@@ -1,0 +1,9 @@
+﻿################################################################################
+# Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/Centralization-of-topics.slnx/FileContentIndex
+/.vs
+/DMI/HorusApp/.vs
+/DMI/HorusApp/obj
+/DMI/HorusApp/bin/Debug/net10.0-android

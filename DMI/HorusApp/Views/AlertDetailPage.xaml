@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:HorusApp.ViewModels"
+             x:Class="HorusApp.Views.AlertDetailPage"
+             x:DataType="viewmodels:AlertDetailViewModel"
+             Title="Detalle de Alerta"
+             BackgroundColor="#050505"
+             Shell.NavBarIsVisible="False">
+
+	<Grid RowDefinitions="Auto, *, Auto" Padding="16,12">
+
+		<!-- 1. Header Superior -->
+		<Grid Grid.Row="0" ColumnDefinitions="Auto, *" ColumnSpacing="12" Margin="0,0,0,16" VerticalOptions="Center">
+			<Button Grid.Column="0" 
+                    Text="←" 
+                    Command="{Binding GoBackCommand}"
+                    TextColor="#A0A0B0"
+                    FontSize="22"
+                    FontAttributes="Bold"
+                    BackgroundColor="#12131A"
+                    BorderColor="#1B1C26"
+                    BorderWidth="1"
+                    CornerRadius="10"
+                    HeightRequest="42" 
+                    WidthRequest="42"
+                    Padding="0"/>
+
+			<VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+				<Label Text="DETALLE DE NOTIFICACIÓN" 
+                       FontSize="11" 
+                       FontAttributes="Bold" 
+                       TextColor="#008BC4" 
+                       CharacterSpacing="1"/>
+				<Label Text="{Binding Alert.RuleName}" 
+                       FontSize="18" 
+                       FontAttributes="Bold" 
+                       TextColor="White" 
+                       LineBreakMode="TailTruncation"/>
+			</VerticalStackLayout>
+		</Grid>
+
+		<!-- 2. Contenido Central -->
+		<Grid Grid.Row="1">
+			<!-- Loader -->
+			<ActivityIndicator IsRunning="{Binding IsLoading}" 
+                               IsVisible="{Binding IsLoading}" 
+                               Color="#E50914" 
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center" />
+
+			<!-- ScrollView -->
+			<ScrollView IsVisible="{Binding IsNotLoading}"
+                        VerticalScrollBarVisibility="Never">
+				<VerticalStackLayout Spacing="16">
+
+					<!-- Tarjeta de Resumen y Nivel -->
+					<Border BackgroundColor="#0F1017" 
+                            Stroke="#1E202E" 
+                            StrokeThickness="1" 
+                            StrokeShape="RoundRectangle 16" 
+                            Padding="16">
+						<Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto">
+							<VerticalStackLayout Grid.Column="0" Spacing="4">
+								<Label Text="Nivel de Amenaza" FontSize="11" FontAttributes="Bold" TextColor="#6E6E80" CharacterSpacing="0.5"/>
+								<Label Text="{Binding Alert.RuleDescription}" 
+                                       FontSize="13" 
+                                       TextColor="#C4C4D4" 
+                                       LineBreakMode="WordWrap"/>
+							</VerticalStackLayout>
+
+							<!-- Badge de Nivel -->
+							<Border Grid.Column="1" 
+                                    BackgroundColor="#1A0A0C" 
+                                    Stroke="{Binding Alert.SeverityColor, FallbackValue='#E50914'}" 
+                                    StrokeThickness="1.5"
+                                    StrokeShape="RoundRectangle 12" 
+                                    Padding="12,6"
+                                    HorizontalOptions="End"
+                                    VerticalOptions="Start">
+								<VerticalStackLayout HorizontalOptions="Center">
+									<Label Text="NIVEL" FontSize="9" FontAttributes="Bold" TextColor="#8E8E93" HorizontalTextAlignment="Center"/>
+									<Label Text="{Binding Alert.Level}" 
+                                           FontSize="22" 
+                                           FontAttributes="Bold" 
+                                           TextColor="{Binding Alert.SeverityColor, FallbackValue='#E50914'}" 
+                                           HorizontalTextAlignment="Center"/>
+								</VerticalStackLayout>
+							</Border>
+
+							<Label Grid.Row="1" Grid.ColumnSpan="2" 
+                                   Text="{Binding Alert.TimeAgoFormatted, StringFormat='🕒 Detectado {0}'}" 
+                                   FontSize="11" 
+                                   TextColor="#6E6E80" 
+                                   Margin="0,12,0,0"/>
+						</Grid>
+					</Border>
+
+					<!-- Fila 1: Datos de Origen y Agente (Métricas Clave) -->
+					<Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+						<Border Grid.Column="0" BackgroundColor="#0F1017" Stroke="#1E202E" StrokeShape="RoundRectangle 12" Padding="14">
+							<VerticalStackLayout Spacing="4">
+								<Label Text="🌐 ORIGEN IP" FontSize="10" FontAttributes="Bold" TextColor="#008BC4" CharacterSpacing="1"/>
+								<Label Text="{Binding Alert.SrcIp, FallbackValue='N/A'}" 
+                                       FontSize="15" 
+                                       FontAttributes="Bold" 
+                                       FontFamily="Monospace" 
+                                       TextColor="White"/>
+							</VerticalStackLayout>
+						</Border>
+
+						<Border Grid.Column="1" BackgroundColor="#0F1017" Stroke="#1E202E" StrokeShape="RoundRectangle 12" Padding="14">
+							<VerticalStackLayout Spacing="4">
+								<Label Text="💻 AGENTE AFECTADO" FontSize="10" FontAttributes="Bold" TextColor="#008BC4" CharacterSpacing="1"/>
+								<Label Text="{Binding Alert.AgentId, FallbackValue='N/A'}" 
+                                       FontSize="15" 
+                                       FontAttributes="Bold" 
+                                       FontFamily="Monospace" 
+                                       TextColor="White"/>
+							</VerticalStackLayout>
+						</Border>
+					</Grid>
+
+					<!-- Fila 2: Badges Técnicos (Píldoras) -->
+					<Grid ColumnDefinitions="*, *, *" ColumnSpacing="8">
+						<Border Grid.Column="0" BackgroundColor="#12131A" Stroke="#1B1C26" StrokeShape="RoundRectangle 8" Padding="8,10">
+							<VerticalStackLayout Spacing="2" HorizontalOptions="Center">
+								<Label Text="REGLA ID" FontSize="9" FontAttributes="Bold" TextColor="#6E6E80" HorizontalTextAlignment="Center"/>
+								<Label Text="{Binding Alert.RuleId}" FontSize="12" FontAttributes="Bold" TextColor="#D4D4E0" HorizontalTextAlignment="Center"/>
+							</VerticalStackLayout>
+						</Border>
+
+						<Border Grid.Column="1" BackgroundColor="#12131A" Stroke="#1B1C26" StrokeShape="RoundRectangle 8" Padding="8,10">
+							<VerticalStackLayout Spacing="2" HorizontalOptions="Center">
+								<Label Text="EVENTO" FontSize="9" FontAttributes="Bold" TextColor="#6E6E80" HorizontalTextAlignment="Center"/>
+								<Label Text="{Binding Alert.EventType}" FontSize="12" FontAttributes="Bold" TextColor="#D4D4E0" HorizontalTextAlignment="Center"/>
+							</VerticalStackLayout>
+						</Border>
+
+						<Border Grid.Column="2" BackgroundColor="#12131A" Stroke="#1B1C26" StrokeShape="RoundRectangle 8" Padding="8,10">
+							<VerticalStackLayout Spacing="2" HorizontalOptions="Center">
+								<Label Text="ACCIÓN" FontSize="9" FontAttributes="Bold" TextColor="#6E6E80" HorizontalTextAlignment="Center"/>
+								<Label Text="{Binding Alert.Action}" FontSize="12" FontAttributes="Bold" TextColor="#D4D4E0" HorizontalTextAlignment="Center"/>
+							</VerticalStackLayout>
+						</Border>
+					</Grid>
+
+					<!-- Fila 3: Framework MITRE ATT&CK -->
+					<Border BackgroundColor="#0F1017" Stroke="#1E202E" StrokeShape="RoundRectangle 12" Padding="14">
+						<VerticalStackLayout Spacing="10">
+							<Label Text="🛡️ MITRE ATT&amp;CK FRAMEWORK" FontSize="11" FontAttributes="Bold" TextColor="#8E8E93" CharacterSpacing="0.5"/>
+
+							<Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+								<Border Grid.Column="0" BackgroundColor="#151620" Stroke="#252738" StrokeShape="RoundRectangle 8" Padding="10,8">
+									<VerticalStackLayout Spacing="2">
+										<Label Text="Táctica" FontSize="9" TextColor="#6E6E80"/>
+										<Label Text="{Binding Alert.FirstTactic, FallbackValue='N/A'}" FontSize="12" FontAttributes="Bold" TextColor="#00A8FF"/>
+									</VerticalStackLayout>
+								</Border>
+
+								<Border Grid.Column="1" BackgroundColor="#151620" Stroke="#252738" StrokeShape="RoundRectangle 8" Padding="10,8">
+									<VerticalStackLayout Spacing="2">
+										<Label Text="Técnica" FontSize="9" TextColor="#6E6E80"/>
+										<Label Text="{Binding Alert.FirstTechnique, FallbackValue='N/A'}" FontSize="12" FontAttributes="Bold" TextColor="#00A8FF"/>
+									</VerticalStackLayout>
+								</Border>
+							</Grid>
+						</VerticalStackLayout>
+					</Border>
+
+					<!-- Fila 4: Log Original (Visor Terminal) -->
+					<Border BackgroundColor="#050507" Stroke="#1E202E" StrokeShape="RoundRectangle 12" Padding="14">
+						<VerticalStackLayout Spacing="8">
+							<Grid ColumnDefinitions="*, Auto">
+								<Label Grid.Column="0" Text="📄 LOG ORIGINAL DEL EVENTO" FontSize="11" FontAttributes="Bold" TextColor="#8E8E93" CharacterSpacing="0.5"/>
+								<Label Grid.Column="1" Text="RAW" FontSize="9" FontAttributes="Bold" TextColor="#008BC4"/>
+							</Grid>
+
+							<Border BackgroundColor="#090A0F" Stroke="#161720" StrokeShape="RoundRectangle 8" Padding="10">
+								<ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+									<Label Text="{Binding Alert.RawLog, FallbackValue='Sin log disponible'}" 
+                                           FontSize="11" 
+                                           FontFamily="Monospace" 
+                                           TextColor="#00FF66"/>
+								</ScrollView>
+							</Border>
+						</VerticalStackLayout>
+					</Border>
+
+				</VerticalStackLayout>
+			</ScrollView>
+		</Grid>
+
+		<!-- 3. Botón Inferior de Acción Crítica -->
+		<Grid Grid.Row="2" Margin="0,12,0,0">
+			<Button HorizontalOptions="Fill"
+                    Text="BLOQUEAR IP EN FIREWALL" 
+                    IsEnabled="{Binding Alert.CanBlock}"
+                    BackgroundColor="#D32F2F" 
+                    TextColor="White" 
+                    FontAttributes="Bold"
+                    FontSize="13" 
+                    CornerRadius="12"
+                    HeightRequest="48"
+                    BorderColor="#FF5252"
+                    BorderWidth="1"/>
+		</Grid>
+
+	</Grid>
+</ContentPage>

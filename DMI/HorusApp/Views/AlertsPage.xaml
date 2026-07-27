@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:HorusApp.Models"
+             x:Class="HorusApp.Views.AlertsPage"
+             Title="Alertas de Seguridad"
+             BackgroundColor="#090A0F"
+             Shell.NavBarIsVisible="False">
+
+	<Grid RowDefinitions="Auto, *">
+
+		<!-- Banner de Error Superior (Estilo Dashboard) -->
+		<Border Grid.Row="0"
+                BackgroundColor="#1A090B"
+                Stroke="#5C1418"
+                StrokeThickness="1"
+                Margin="16,12,16,4"
+                Padding="12,10"
+                StrokeShape="RoundRectangle 8"
+                IsVisible="{Binding ErrorMessage, Converter={StaticResource StringIsNotNullOrEmptyConverter}}">
+			<HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+				<Label Text="⚠️" FontSize="14" VerticalOptions="Center" />
+				<Label Text="{Binding ErrorMessage}"
+                       TextColor="#FF4D4D"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center"/>
+			</HorizontalStackLayout>
+		</Border>
+
+		<!-- Lista de Alertas -->
+		<RefreshView Grid.Row="1"
+                     IsRefreshing="{Binding IsLoading}"
+                     Command="{Binding LoadAlertsCommand}"
+                     RefreshColor="#007ACC">
+
+			<CollectionView ItemsSource="{Binding Alerts}"
+                SelectionMode="Single"
+                SelectionChangedCommand="{Binding SelectAlertCommand}"
+                SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
+                SelectedItem="{Binding SelectedAlert, Mode=TwoWay}"
+                ItemSizingStrategy="MeasureFirstItem">
+
+				<!-- Estado Vacío -->
+				<CollectionView.EmptyView>
+					<VerticalStackLayout VerticalOptions="Center"
+                                         HorizontalOptions="Center"
+                                         Spacing="12"
+                                         Padding="20">
+						<Label Text="🛡️" FontSize="40" HorizontalTextAlignment="Center"/>
+						<Label Text="No hay alertas registradas"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#E1E1E6"
+                               HorizontalTextAlignment="Center"/>
+						<Label Text="Desliza hacia abajo para actualizar"
+                               FontSize="13"
+                               TextColor="#7C7C8A"
+                               HorizontalTextAlignment="Center"/>
+					</VerticalStackLayout>
+				</CollectionView.EmptyView>
+
+				<!-- Plantilla de la Alerta -->
+				<CollectionView.ItemTemplate>
+					<DataTemplate x:DataType="models:MobileAlertDto">
+
+						<!-- Tarjeta Clickeable con Border (Moderno) -->
+						<Border Margin="16,6"
+                                Padding="16"
+                                BackgroundColor="#12131A"
+                                Stroke="#20222E"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 12">
+
+							<!-- Evento de Tap / Clic en la Card -->
+							<Border.GestureRecognizers>
+								<TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SelectAlertCommand}"
+                                                      CommandParameter="{Binding .}" />
+							</Border.GestureRecognizers>
+
+							<Grid RowDefinitions="Auto, Auto, Auto, Auto"
+                                  ColumnDefinitions="*, Auto"
+                                  RowSpacing="8"
+                                  ColumnSpacing="12">
+
+								<!-- Fila 0: Título de la Regla -->
+								<Label Grid.Row="0" Grid.Column="0"
+                                       Text="{Binding RuleName}"
+                                       FontAttributes="Bold"
+                                       FontSize="15"
+                                       TextColor="#F0F0F5"
+                                       LineBreakMode="TailTruncation"
+                                       VerticalOptions="Center"/>
+
+								<!-- Fila 0: Badge de Severidad -->
+								<Border Grid.Row="0" Grid.Column="1"
+                                        Padding="10,4"
+                                        StrokeShape="RoundRectangle 6"
+                                        StrokeThickness="0"
+                                        BackgroundColor="{Binding SeverityColor}"
+                                        VerticalOptions="Center">
+									<Label Text="{Binding SeverityLabel}"
+                                           TextColor="White"
+                                           FontSize="10"
+                                           FontAttributes="Bold"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+								</Border>
+
+								<!-- Fila 1: Descripción -->
+								<Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                       Text="{Binding RuleDescription}"
+                                       FontSize="13"
+                                       TextColor="#8D8D99"
+                                       MaxLines="2"
+                                       LineBreakMode="TailTruncation" />
+
+								<!-- Fila 2: Separador Sutil -->
+								<BoxView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                         HeightRequest="1"
+                                         Color="#1C1D26"
+                                         Margin="0,2"
+                                         HorizontalOptions="Fill" />
+
+								<!-- Fila 3: Metadata (IP / Usuario) -->
+								<HorizontalStackLayout Grid.Row="3" Grid.Column="0"
+                                                       Spacing="12"
+                                                       VerticalOptions="Center">
+
+									<Border BackgroundColor="#1A2433"
+                                            Padding="6,2"
+                                            StrokeShape="RoundRectangle 4"
+                                            StrokeThickness="0"
+                                            IsVisible="{Binding HasSrcIp}">
+										<Label Text="{Binding SrcIp, StringFormat='IP: {0}'}"
+                                               FontSize="11"
+                                               FontAttributes="Bold"
+                                               TextColor="#3399FF"/>
+									</Border>
+
+									<Label Text="{Binding DstUser, StringFormat='User: {0}'}"
+                                           FontSize="11"
+                                           TextColor="#C4C4CC"
+                                           VerticalOptions="Center"
+                                           IsVisible="{Binding HasDstUser}"/>
+								</HorizontalStackLayout>
+
+								<!-- Fila 3: Fecha / Hora -->
+								<Label Grid.Row="3" Grid.Column="1"
+                                       Text="{Binding CreatedAt, StringFormat='{0:HH:mm • dd MMM}'}"
+                                       FontSize="11"
+                                       TextColor="#62626C"
+                                       HorizontalOptions="End"
+                                       VerticalOptions="Center"/>
+
+							</Grid>
+						</Border>
+
+					</DataTemplate>
+				</CollectionView.ItemTemplate>
+			</CollectionView>
+		</RefreshView>
+	</Grid>
+</ContentPage>
