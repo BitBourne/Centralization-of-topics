@@ -11,11 +11,16 @@ public partial class AlertsViewModel : ObservableObject
 {
 	private readonly AlertService _alertService;
 
+
+
 	[ObservableProperty]
 	private bool _isLoading;
 
 	[ObservableProperty]
+	[NotifyPropertyChangedFor(nameof(HasErrorMessage))]
 	private string _errorMessage = string.Empty;
+	// Esta propiedad devolverá true solo cuando ErrorMessage tenga texto
+	public bool HasErrorMessage => !string.IsNullOrWhiteSpace(ErrorMessage);
 
 	[ObservableProperty]
 	private MobileAlertDto? _selectedAlert;
@@ -30,8 +35,6 @@ public partial class AlertsViewModel : ObservableObject
 	[RelayCommand]
 	public async Task LoadAlertsAsync()
 	{
-		if (IsLoading) return;
-
 		try
 		{
 			IsLoading = true;
@@ -39,6 +42,7 @@ public partial class AlertsViewModel : ObservableObject
 
 			var items = await _alertService.GetAlertsAsync();
 
+			// Actualización de la UI
 			MainThread.BeginInvokeOnMainThread(() =>
 			{
 				Alerts.Clear();
@@ -57,6 +61,7 @@ public partial class AlertsViewModel : ObservableObject
 		}
 		finally
 		{
+			// Esto le indica al RefreshView que el proceso terminó y debe ocultar el spinner
 			IsLoading = false;
 		}
 	}

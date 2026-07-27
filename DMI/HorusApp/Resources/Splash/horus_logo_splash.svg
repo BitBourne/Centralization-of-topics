@@ -1,0 +1,28 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="200" cy="200" r="150" fill="#0A0202" stroke="#501313" stroke-width="2"/>
+  <circle cx="200" cy="200" r="142" fill="#120404"/>
+
+  <circle cx="200" cy="200" r="122" fill="none" stroke="#3A0A0A" stroke-width="1"/>
+  <circle cx="200" cy="200" r="90" fill="none" stroke="#3A0A0A" stroke-width="1" opacity="0.7"/>
+
+  <g fill="#2C0808">
+    <path d="M200 78 L212 106 L188 106 Z"/>
+    <path d="M78 200 L106 212 L106 188 Z"/>
+    <path d="M322 200 L294 212 L294 188 Z"/>
+    <path d="M112 140 L135 158 L118 168 Z"/>
+    <path d="M288 140 L265 158 L282 168 Z"/>
+  </g>
+
+  <path d="M110 190 Q160 140 200 141 Q240 142 275 172" fill="none" stroke="#0B0B0A" stroke-width="10" stroke-linecap="round"/>
+  <path d="M110 190 Q160 235 200 236 Q245 237 280 195 Q245 165 200 166 Q160 167 110 190 Z" fill="#150404" stroke="#791F1F" stroke-width="2.5"/>
+  <circle cx="200" cy="196" r="24" fill="#0B0202"/>
+  <circle cx="200" cy="196" r="24" fill="none" stroke="#E24B4A" stroke-width="2.5"/>
+  <circle cx="200" cy="196" r="10" fill="#501313"/>
+  <circle cx="209" cy="187" r="4" fill="#F09595"/>
+
+  <path d="M170 232 Q160 265 170 292 Q176 310 192 305 Q180 282 181 260 Q182 244 170 232 Z" fill="#791F1F"/>
+
+  <path d="M280 195 L320 189 L320 202 L302 208 Z" fill="#791F1F"/>
+
+  <text x="200" y="360" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="600" letter-spacing="5" fill="#A32D2D">HORUS</text>
+</svg>

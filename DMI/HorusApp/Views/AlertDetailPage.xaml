@@ -18,8 +18,8 @@
                     TextColor="#A0A0B0"
                     FontSize="22"
                     FontAttributes="Bold"
-                    BackgroundColor="#12131A"
-                    BorderColor="#1B1C26"
+                    BackgroundColor="Transparent"
+                    BorderColor="Transparent"
                     BorderWidth="1"
                     CornerRadius="10"
                     HeightRequest="42" 
@@ -88,11 +88,13 @@
 								</VerticalStackLayout>
 							</Border>
 
-							<Label Grid.Row="1" Grid.ColumnSpan="2" 
-                                   Text="{Binding Alert.TimeAgoFormatted, StringFormat='🕒 Detectado {0}'}" 
-                                   FontSize="11" 
-                                   TextColor="#6E6E80" 
-                                   Margin="0,12,0,0"/>
+
+							<Label Grid.Row="2" 
+                                   Text="{Binding Alert.TimeAgoFormatted, StringFormat='{0}'}" 
+								   FontSize="11" 
+								   TextColor="#6E6E80" 
+								   LineBreakMode="NoWrap" 
+								   Margin="0,12,0,0"/>
 						</Grid>
 					</Border>
 
@@ -196,13 +198,13 @@
 			<Button HorizontalOptions="Fill"
                     Text="BLOQUEAR IP EN FIREWALL" 
                     IsEnabled="{Binding Alert.CanBlock}"
-                    BackgroundColor="#D32F2F" 
-                    TextColor="White" 
+                    BackgroundColor="#2D1214"
+                    TextColor="#FF4D4D"
+                    BorderColor="#5A1E20"
                     FontAttributes="Bold"
                     FontSize="13" 
                     CornerRadius="12"
                     HeightRequest="48"
-                    BorderColor="#FF5252"
                     BorderWidth="1"/>
 		</Grid>
 

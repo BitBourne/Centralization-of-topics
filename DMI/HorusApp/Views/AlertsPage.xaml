@@ -4,35 +4,36 @@
              xmlns:models="clr-namespace:HorusApp.Models"
              x:Class="HorusApp.Views.AlertsPage"
              Title="Alertas de Seguridad"
-             BackgroundColor="#090A0F"
+             BackgroundColor="#050505"
              Shell.NavBarIsVisible="False">
 
 	<Grid RowDefinitions="Auto, *">
 
 		<!-- Banner de Error Superior (Estilo Dashboard) -->
 		<Border Grid.Row="0"
-                BackgroundColor="#1A090B"
-                Stroke="#5C1418"
-                StrokeThickness="1"
-                Margin="16,12,16,4"
-                Padding="12,10"
-                StrokeShape="RoundRectangle 8"
-                IsVisible="{Binding ErrorMessage, Converter={StaticResource StringIsNotNullOrEmptyConverter}}">
+        BackgroundColor="#1A090B"
+        Stroke="#5C1418"
+        StrokeThickness="1"
+        Margin="16,12,16,4"
+        Padding="12,10"
+        StrokeShape="RoundRectangle 8"
+        IsVisible="{Binding HasErrorMessage}">
+
 			<HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
 				<Label Text="⚠️" FontSize="14" VerticalOptions="Center" />
 				<Label Text="{Binding ErrorMessage}"
-                       TextColor="#FF4D4D"
-                       FontSize="13"
-                       FontAttributes="Bold"
-                       VerticalOptions="Center"/>
+               TextColor="#FF4D4D"
+               FontSize="13"
+               FontAttributes="Bold"
+               VerticalOptions="Center"/>
 			</HorizontalStackLayout>
 		</Border>
 
 		<!-- Lista de Alertas -->
 		<RefreshView Grid.Row="1"
-                     IsRefreshing="{Binding IsLoading}"
-                     Command="{Binding LoadAlertsCommand}"
-                     RefreshColor="#007ACC">
+             IsRefreshing="{Binding IsLoading, Mode=TwoWay}"
+             Command="{Binding LoadAlertsCommand}"
+             RefreshColor="#007ACC">
 
 			<CollectionView ItemsSource="{Binding Alerts}"
                 SelectionMode="Single"

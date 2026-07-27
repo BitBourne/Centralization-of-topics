@@ -1,4 +1,24 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="456" height="456" viewBox="0 0 456 456" version="1.1" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0" y="0" width="456" height="456" fill="#512BD4" />
+<svg width="108" height="108" viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg">
+	<!-- Zona segura Android adaptive icon: contenido dentro de un circulo de ~66dp centrado en 108x108 -->
+
+	<!-- picos alrededor, dentro del safe zone -->
+	<g fill="#2C0808">
+		<path d="M54 22 L58 30 L50 30 Z"/>
+		<path d="M28 54 L36 58 L36 50 Z"/>
+		<path d="M80 54 L72 58 L72 50 Z"/>
+	</g>
+
+	<!-- ojo de horus siniestro, simplificado, sin gradientes -->
+	<path d="M32 50 Q46 34 54 34 Q62 34 74 44" fill="none" stroke="#0B0B0A" stroke-width="4" stroke-linecap="round"/>
+	<path d="M32 50 Q46 62 54 62 Q64 62 76 50 Q64 40 54 40 Q46 40 32 50 Z" fill="#150404" stroke="#791F1F" stroke-width="1.2"/>
+	<circle cx="54" cy="50" r="9" fill="#0B0202"/>
+	<circle cx="54" cy="50" r="9" fill="none" stroke="#E24B4A" stroke-width="1.2"/>
+	<circle cx="54" cy="50" r="4" fill="#501313"/>
+	<circle cx="57" cy="47" r="1.6" fill="#F09595"/>
+
+	<!-- lagrima -->
+	<path d="M44 62 Q41 72 44 80 Q46 85 51 83 Q47 76 47 70 Q47 65 44 62 Z" fill="#791F1F"/>
+
+	<!-- marca de lanza -->
+	<path d="M76 50 L90 48 L90 52 L84 54 Z" fill="#791F1F"/>
 </svg>

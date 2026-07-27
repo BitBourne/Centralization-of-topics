@@ -5,7 +5,7 @@
              x:Class="HorusApp.Views.SettingsPage"
              x:DataType="viewmodels:LogoutViewModel"
              Title="Ajustes"
-             BackgroundColor="#0D0D0E"
+             BackgroundColor="#050505"
              Shell.NavBarIsVisible="False">
 
 	<ScrollView>
