@@ -1,6 +1,5 @@
 using HorusApp.ViewModels;
 
-
 namespace HorusApp.Views;
 
 public partial class LoginPage : ContentPage
@@ -11,13 +10,12 @@ public partial class LoginPage : ContentPage
 		BindingContext = viewModel;
 	}
 
-	// Método nativo para alternar la visibilidad
 	private void OnTogglePasswordClicked(object sender, EventArgs e)
 	{
-		// Cambiamos el estado de oculto/visible
+		// Alternar visibilidad de la contraseña
 		PasswordEntry.IsPassword = !PasswordEntry.IsPassword;
 
-		// Cambiamos el texto del botón dinámicamente
+		// Actualizar el texto del botón dinámicamente
 		if (sender is Button button)
 		{
 			button.Text = PasswordEntry.IsPassword ? "Ver" : "Ocultar";
